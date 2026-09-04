@@ -11,10 +11,13 @@ images:
 
 dags:
   persistence:
-    enabled: true
-    existingClaim: airflow-dags
-  gitSync:
     enabled: false
+  gitSync:
+    enabled: true
+    repo: https://github.com/Semparudhi/k8s-airflow.git
+    branch: master
+    subPath: "dags"
+    wait: 30
 
 statsd:
   enabled: false
