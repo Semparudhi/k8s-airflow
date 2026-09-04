@@ -13,7 +13,7 @@ from airflow.sdk import dag, task
     schedule=None,
     start_date=pendulum.datetime(2026, 1, 1, tz="UTC"),
     catchup=False,
-    tags=["phase0"],
+    tags=["gitsync"],
 )
 def parallel_probe():
     @task
