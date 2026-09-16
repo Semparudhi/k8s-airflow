@@ -58,4 +58,14 @@ config:
     parallelism: "6"
     load_examples: "False"
   kubernetes_executor:
-    delete_worker_pods: "False"
+    delete_worker_pods: "True"
+  logging:
+    remote_logging: "True"
+    remote_base_log_folder: "s3://airflow-logs/logs"
+    remote_log_conn_id: "minio_s3"
+  
+
+extraEnvFrom: |
+  - secretRef:
+      name: airflow-connections
+
