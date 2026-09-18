@@ -7,11 +7,17 @@ spec:
   type: Python
   pythonVersion: "3"
   mode: cluster
-  image: apache/spark:3.5.5
+  image: spark-s3:3.5.5
+  imagePullPolicy: IfNotPresent
   sparkVersion: "3.5.5"
   mainApplicationFile: local:///opt/jobs/minio_probe.py
   restartPolicy:
     type: Never
+  hadoopConf:
+    fs.s3a.endpoint: "http://minio.minio.svc.cluster.local:9000"
+    fs.s3a.path.style.access: "true"
+    fs.s3a.connection.ssl.enabled: "false"
+    fs.s3a.aws.credentials.provider: "com.amazonaws.auth.EnvironmentVariableCredentialsProvider"
   volumes:
     - name: job-code
       configMap:
@@ -20,6 +26,9 @@ spec:
     cores: 1
     memory: 1g
     serviceAccount: spark
+    envFrom:
+      - secretRef:
+          name: minio-creds
     volumeMounts:
       - name: job-code
         mountPath: /opt/jobs
@@ -27,3 +36,6 @@ spec:
     instances: 1
     cores: 1
     memory: 1g
+    envFrom:
+      - secretRef:
+          name: minio-creds
