@@ -6,7 +6,7 @@ from airflow.providers.cncf.kubernetes.operators.spark_kubernetes import (
     SparkKubernetesOperator,
 )
 
-APP_FILE = str(Path(__file__).parent / "minio-probe.yaml")
+APP_FILE = str(Path(__file__).parent / "minio_probe_app.yaml")
 
 with DAG(
     dag_id="spark_minio",
