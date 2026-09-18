@@ -1,0 +1,29 @@
+apiVersion: sparkoperator.k8s.io/v1beta2
+kind: SparkApplication
+metadata:
+  name: minio-probe
+  namespace: spark
+spec:
+  type: Python
+  pythonVersion: "3"
+  mode: cluster
+  image: apache/spark:3.5.5
+  sparkVersion: "3.5.5"
+  mainApplicationFile: local:///opt/jobs/minio_probe.py
+  restartPolicy:
+    type: Never
+  volumes:
+    - name: job-code
+      configMap:
+        name: minio-probe-job
+  driver:
+    cores: 1
+    memory: 1g
+    serviceAccount: spark
+    volumeMounts:
+      - name: job-code
+        mountPath: /opt/jobs
+  executor:
+    instances: 1
+    cores: 1
+    memory: 1g
