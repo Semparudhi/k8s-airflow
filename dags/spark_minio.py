@@ -1,12 +1,9 @@
 from datetime import datetime
-from pathlib import Path
 
 from airflow import DAG
 from airflow.providers.cncf.kubernetes.operators.spark_kubernetes import (
     SparkKubernetesOperator,
 )
-
-APP_FILE = str(Path(__file__).parent / "minio_probe_app.yaml")
 
 with DAG(
     dag_id="spark_minio",
@@ -18,7 +15,7 @@ with DAG(
     submit = SparkKubernetesOperator(
         task_id="submit_spark_job",
         namespace="spark",
-        application_file=APP_FILE,
+        application_file="minio_probe_app.yaml",
         kubernetes_conn_id="kubernetes_default",
         get_logs=True,
         delete_on_termination=False,
